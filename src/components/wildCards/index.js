@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import {ethers} from 'ethers'
-import '../wildCardEthers/wildCard.css'
+import { MDBCol, MDBContainer, MDBRow, MDBCard, MDBCardTitle, MDBCardText, MDBCardBody, MDBCardImage, MDBBtn } from 'mdb-react-ui-kit';
 
 const WalletCard = () => {
 
@@ -26,6 +26,7 @@ const WalletCard = () => {
 
 		} else {
 			console.log('Need to install MetaMask');
+			alert('Need to install MetaMask')
 			setErrorMessage('Please install MetaMask browser extension to interact');
 		}
 	}
@@ -53,20 +54,56 @@ const WalletCard = () => {
 
 
 	// listen for account changes
-	window?.ethereum.on && window?.ethereum.on('accountsChanged', accountChangedHandler);
-	window?.ethereum.on && window?.ethereum.on('chainChanged', chainChangedHandler);
+	window?.ethereum?.on && window?.ethereum.on('accountsChanged', accountChangedHandler);
+	window?.ethereum?.on && window?.ethereum.on('chainChanged', chainChangedHandler);
 
 	return (
-		<div className='walletCard'>
-		<h4> {"Connection to MetaMask using window.ethereum methods"} </h4>
-			<button onClick={connectWalletHandler}>{connButtonText}</button>
-			<div className='accountDisplay'>
-				<h3>Address: {defaultAccount}</h3>
-			</div>
-			<div className='balanceDisplay'>
-				<h3>Balance: {userBalance}</h3>
-			</div>
-			{errorMessage}
+		<div className="vh-100" style={{ backgroundColor: '#9de2ff' }}>
+		<MDBContainer>
+			<MDBRow className="justify-content-center">
+			<MDBCol md="9" lg="7" xl="5" className="mt-5">
+				<MDBCard style={{ borderRadius: '15px' }}>
+				<MDBCardBody className="p-4">
+					<div className="d-flex text-black">
+					<div className="flex-shrink-0">
+						<MDBCardImage
+						style={{ width: '180px', borderRadius: '10px' }}
+						src='https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp'
+						alt='Generic placeholder image'
+						fluid />
+					</div>
+					<div className="flex-grow-1 ps-3 overflow-auto">
+						<MDBCardTitle>Danny McLoan</MDBCardTitle>
+						<MDBCardText>Senior Journalist</MDBCardText>
+
+					{!(connButtonText== 'Connect Wallet')? <div className="d-flex justify-content-start rounded-3 p-2 mb-2 overflow-hidden text-break"
+						style={{ backgroundColor: '#efefef',overflow:'clip' }}>
+						<div>
+							<p className="small text-muted mb-1 text-nowrap">Address</p>
+							<p className="mb-0">{defaultAccount}</p>
+						</div>
+						<div className="px-3">
+							<p className="small text-muted mb-1 text-nowrap">Balance</p>
+							<p className="mb-0">{userBalance}</p>
+						</div>
+						</div>:
+						<div className="d-flex justify-content-start rounded-3 p-2 mb-2"
+						style={{ backgroundColor: '#efefef' }}>
+						<div>
+							<p className="small text-muted mb-1">Please connect wallet</p>
+						</div>
+						</div>
+						}
+						<div className="d-flex pt-1">
+						<MDBBtn outline className="me-1 flex-grow-1" onClick={connectWalletHandler}>{connButtonText}</MDBBtn>
+						</div>
+					</div>
+					</div>
+				</MDBCardBody>
+				</MDBCard>
+			</MDBCol>
+			</MDBRow>
+		</MDBContainer>
 		</div>
 	);
 }
